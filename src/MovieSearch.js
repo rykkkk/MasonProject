@@ -3,51 +3,61 @@ import "./App.css";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 
 export class MovieSearch extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            searchValue: "",
-            results: [],
-        };
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.search = this.search.bind(this);
-    }
-
-    handleChange = (e) => {
-        this.setState({ searchValue: e.target.value });
-        this.props.onSearchChange(e.target.value);
+	constructor(props) {
+    super(props);
+    this.state = {
+        searchValue: "",
+        results: [],
     };
-
-    handleSubmit = (e) => {
-        e.preventDefault();
-        this.search();
-    };
-
-search() {
-	fetch(`http://www.omdbapi.com/?s=${this.state.searchValue}&apikey=${process.env.OBDM_API_KEY}`)
-		.then(response => response.json())
-		.then(data => this.setState({ results: data.Search }));
+    this.handleChange = this.handleChange.bind(this);
+    // this.handleSubmit = this.handleSubmit.bind(this); 
+    this.search = this.search.bind(this);
 }
 
-    render() {
-        return (
-            <form
-                onSubmit={this.handleSubmit} 
+	handleChange = (e) => {
+		this.setState({ searchValue: e.target.value });
+		this.props.onSearchChange(e.target.value);
+	};
+
+
+
+	search() {
+		fetch(
+			`http://www.omdbapi.com/?s=${this.state.searchValue}&apikey=${process.env.OBDM_API_KEY}`
+		)
+			.then((response) => {
+				if (!response.ok) {
+					throw new Error("Network response was not ok");
+				}
+				return response.json();
+			})
+			.then((data) => this.setState({ results: data.Search }))
+			.catch((error) => {
+				console.error("There was an error!", error);
+				this.setState({ error: "There was an error fetching the results." });
+			});
+	}
+
+	render() {
+		return (
+			<form
+				onSubmit={this.handleSubmit}
 				className="ontario-search__container"
-				novalidate>
-				<label class="ontario-label ontario-search__label" htmlFor=" search">
+				noValidate>
+				<label
+					className="ontario-label ontario-search__label"
+					htmlFor="search">
 					Search titles
 				</label>
-				<p id=" search-hint" class="ontario-hint">
+				<p className="ontario-hint">
 					Search the OMDB database for a Movie or TV Program.
 				</p>
-				<div class="ontario-search__input-container">
+				<div className="ontario-search__input-container">
 					<input
 						type="search"
 						name="search"
-						id=" search"
-						aria-autocomplete="none"
+						id="search"
+						autocomplete="off"
 						className="ontario-input ontario-search__input"
 						placeholder="Search for a movie"
 						value={this.state.searchValue}
@@ -76,6 +86,7 @@ search() {
 						</svg>
 					</button>
 				</div>{" "}
+				{this.state.error && <p><br />{this.state.error}</p>}
 				<script></script>
 			</form>
 		);
