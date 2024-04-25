@@ -1,15 +1,17 @@
-import logo from './logo.svg';
-import './App.css';
-import React from 'react';
-import { OPSFooter, OPSHeader } from './components/Layout';
+import "./App.css";
+import React from "react";
+import { OPSFooter, OPSHeader } from "./components/Layout";
+import {  Output } from "./MovieSearch";
 
 function App() {
-    return (
-        <div>
-            <OPSHeader></OPSHeader>
-            <OPSFooter></OPSFooter>
-        </div>
-    );
+	return (
+		<div>
+			<OPSHeader></OPSHeader>
+
+			<Output></Output>
+			<OPSFooter></OPSFooter>
+		</div>
+	);
 }
 
 export default App;
