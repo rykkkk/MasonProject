@@ -1,15 +1,16 @@
 import "./App.css";
 import React from "react";
 import { OPSFooter, OPSHeader } from "./components/Layout";
-import {  Output } from "./MovieSearch";
+import {   } from "./MovieSearch";
+import { Output ,MovieResults} from "./Output";
 
 function App() {
 	return (
 		<div>
 			<OPSHeader></OPSHeader>
-
 			<Output></Output>
-			<OPSFooter></OPSFooter>
+			<MovieResults></MovieResults> 
+            <OPSFooter></OPSFooter>
 		</div>
 	);
 }
