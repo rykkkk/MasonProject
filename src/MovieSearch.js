@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import "./App.css";
+import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 
 export class MovieSearch extends React.Component {
 	constructor(props) {
@@ -10,11 +12,10 @@ export class MovieSearch extends React.Component {
 		this.handleChange = this.handleChange.bind(this);
 		this.search = this.search.bind(this);
 	}
-
-	handleChange(e) {
-		this.setState({ search: e.target.value });
-		this.props.onSearchChange(e.target.value);
-	}
+handleChange = (e) => {
+    this.setState({ searchValue: e.target.value });
+    this.props.onSearchChange(e.target.value);
+}
 	fetchMovies = async () => {
 		const response = await fetch(
 			`http://www.omdbapi.com/?s=${this.state.searchValue}&apikey=${process.env.OBDM_API_KEY}`
@@ -50,7 +51,7 @@ export class MovieSearch extends React.Component {
 						aria-autocomplete="none"
 						className="ontario-input ontario-search__input"
 						placeholder="Search for a movie"
-						value={this.state.search}
+						value={this.state.searchValue}
 						onChange={this.handleChange}
 					/>
 					<input
@@ -83,35 +84,38 @@ export class MovieSearch extends React.Component {
 }
 
 class MovieResults extends React.Component {
-    render() {
-        const { results } = this.props; // access the results from props
+	render() {
+		const { results } = this.props; // access the results from props
 
-        return (
-            <div className="mason-container">
-                {results.map((result) => (
-                    <div key={result.imdbID}>
-                        <ul className="ontario-card__container ontario-card--cards-per-row-3">
-                            <li className="ontario-card ontario-card--light ontario-card--no-description ontario-card--position-vertical  ">
-                                <div className="ontario-card__image-container">
-                                    <img
-                                        className="ontario-card__image"
-                                        src={result.Poster}
-                                        alt="card component image"></img>
-                                </div>
-                                <div className="ontario-card__text-container ontario-card--image-true">
-                                    <h2 className="ontario-card__heading">
-                                        <a href="#">{result.Title}</a> <p>{result.Year}</p>
-                                    </h2>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                ))}
-            </div>
-        );
-    }
+		return (
+			<ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3 }}>
+				<Masonry>
+					{results.map((result) => (
+						<div key={result.imdbID}>
+							<ul className="ontario-card__container ontario-card--cards-per-row-3">
+								<li className="ontario-card ontario-card--light ontario-card--no-description ontario-card--position-vertical  ">
+									<div className="ontario-card__image-container">
+										<img
+											className="ontario-card__image"
+											src={result.Poster}
+											alt="card component image"></img>
+									</div>
+									<div className="ontario-card__text-container ontario-card--image-true">
+										<h2 className="ontario-card__heading">
+											<a href="#">{result.Title}</a> <p>{result.Year}</p>
+										</h2>
+									</div>
+								</li>
+							</ul>
+						</div>
+					))}
+				</Masonry>
+			</ResponsiveMasonry>
+		);
+	}
 }
 export class Output extends React.Component {
+
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -122,9 +126,9 @@ export class Output extends React.Component {
 		this.handleSearchSubmit = this.handleSearchSubmit.bind(this);
 	}
 
-	handleSearchChange(event) {
-		this.setState({ searchValue: event.target.value });
-	}
+	handleSearchChange = (value) => {
+    this.setState({ searchValue: value });
+}
 
 	handleSearchSubmit(results) {
 		this.setState({ results });
@@ -136,10 +140,10 @@ export class Output extends React.Component {
 				<div className="ontario-column">
 					<h1>Movie Search</h1>
 					<MovieSearch
-						searchValue={this.state.searchValue}
-						onSearchChange={this.handleSearchChange}
-						onSearchSubmit={this.handleSearchSubmit}
-					/>
+    searchValue={this.state.searchValue}
+    onSearchChange={this.handleSearchChange.bind(this)}
+    onSearchSubmit={this.handleSearchSubmit.bind(this)}
+/>
 					<MovieResults results={this.state.results} />
 				</div>{" "}
 			</div>

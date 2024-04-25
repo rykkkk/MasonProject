@@ -12,7 +12,7 @@ export class OPSHeader extends Component {
 							<div className="ontario-columns ontario-small-6 ontario-application-header__logo">
 								<a href="https://www.ontario.ca/page/government-ontario">
 									<img
-										src="../../logos/ontario-logo--desktop.svg"
+										src="/MasonProject/src/components/ODS/logos/ontario-logo--desktop.svg"
 										alt="Ontario.ca homepage"
 									/>
 								</a>
@@ -34,21 +34,10 @@ export class OPSHeader extends Component {
 
 									<div className="ontario-application-subheader__menu-container">
 										<ul className="ontario-application-subheader__menu ontario-show-for-large">
-											<li>
-												<a href="/counter">Counter</a>
-											</li>
-
-											<li>
-												<a href="/mymovies">My Movies</a>
-											</li>
+	
 										</ul>
 										<ul className="ontario-application-subheader__menu ontario-hide-for-small ontario-show-for-medium ontario-hide-for-large">
-											<li>
-												<a href="/counter">Counter</a>
-											</li>
-											<li>
-												<a href="/fetch-data">Fetch data</a>
-											</li>
+							
 										</ul>
 										<button
 											className="ontario-header__menu-toggler ontario-header-button ontario-header-button--with-outline"
@@ -101,17 +90,7 @@ export class OPSHeader extends Component {
 								<span>Menu</span>
 							</button>
 							<div className="ontario-navigation__container">
-								<ul>
-									<li className="ontario-show-for-small-only">
-										<a href="/counter">Counter</a>
-									</li>
-									<li className="ontario-show-for-small-only">
-										<a href="/fetch-data">Fetch data</a>
-									</li>
-									<li className="ontario-hide-for-large">
-										<a href="mymovies">My Movies</a>
-									</li>
-								</ul>
+								
 							</div>
 						</nav>
 					</div>
