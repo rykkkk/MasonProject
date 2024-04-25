@@ -3,71 +3,58 @@ import { MovieSearch } from "./MovieSearch";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 
 export function Output() {
-	// export class Output extends React.Component {
-	// constructor(props) {
-	//     super(props);
-	//     this.state = {
-	//         searchValue: "",
-	//         results: [],
-	//         isLoading: false,
-	//         error: null,
-	//     };
-	//     this.handleSearchChange = this.handleSearchChange.bind(this);
-	//     this.handleSearchSubmit = this.handleSearchSubmit.bind(this);
-	// }
-	const [searchValue, setSearchValue] = useState("");
-	const [results, setResults] = useState([]);
-	const [isLoading, setIsLoading] = useState(false);
-	const [error, setError] = useState(null);
-
-	const handleSearchChange = (value) => {
-		setSearchValue(value);
-	};
-
-	const handleSearchSubmit = async () => {
-		setIsLoading(true);
-		setError(null);
-		try {
-			const response = await fetch(
-				`http://www.omdbapi.com/?s=${searchValue}&apikey=${process.env.OBDM_API_KEY}`
-			);
-			const data = await response.json();
-			if (data.Search) {
-				setResults(data.Search);
-			} else {
-				setResults([]);
-			}
-		} catch (error) {
-			setError("There was an error fetching the results.");
-		} finally {
-			setIsLoading(false);
-		}
-	};
-
-	// render() {
-	return (
-		<div className="ontario-row">
-			<div className="ontario-column">
-				<h1>Movie Search</h1>
-				<MovieSearch
-					searchValue={searchValue}
-					onSearchChange={handleSearchChange}
-					//  onSearchSubmit={handleSearchSubmit}
-                    results={results}
-				/>
-				{isLoading ? (
-					<p>Loading...</p>
-				) : error ? (
-					<p>{error}</p>
-				) : results.length > 0 ? (
-					<MovieResults results={results} />
-				) : (
-					<p>No results found.</p>
-				)}
-			</div>
-		</div>
-	);
-}
+    const [searchValue, setSearchValue] = useState("");
+    const [results, setResults] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null);
+  
+    const handleSearchChange = (value) => {
+      setSearchValue(value);
+    };
+  
+    const handleSearchSubmit = async () => {
+      setIsLoading(true);
+      setError(null);
+      try {
+        const response = await fetch(
+          `http://www.omdbapi.com/?s=${searchValue}&apikey=${process.env.OBDM_API_KEY}`
+        );
+        const data = await response.json();
+        if (data.Search) {
+          setResults(data.Search);
+        } else {
+          setResults([]);
+        }
+      } catch (error) {
+        setError("There was an error fetching the results.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+  
+    return (
+      <div className="ontario-row">
+        <div className="ontario-column">
+          <h1>Movie Search</h1>
+          <MovieSearch
+            searchValue={searchValue}
+            onSearchChange={handleSearchChange}
+            onSearchSubmit={handleSearchSubmit}
+            results={results}
+          />
+          {isLoading ? (
+            <p>Loading...</p>
+          ) : error ? (
+            <p>{error}</p>
+          ) : results.length > 0 ? (
+            <MovieResults results={results} />
+          ) : (
+            <p>No results found.</p>
+          )}
+        </div>
+      </div>
+    );
+  }
 
 export function MovieResults({ results }) {
     return (
