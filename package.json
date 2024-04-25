@@ -39,6 +39,7 @@
   },
   "devDependencies": {
     "eslint-config-react-app": "^7.0.1",
-    "jest-editor-support": "^32.0.0-beta.0"
+    "jest-editor-support": "^32.0.0-beta.0",
+    "@babel/plugin-proposal-private-property-in-object": "^7.5.5"
   }
 }

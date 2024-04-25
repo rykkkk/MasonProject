@@ -3,38 +3,37 @@ import "./App.css";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 
 export class MovieSearch extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			search: "",
-			results: [],
-		};
-		this.handleChange = this.handleChange.bind(this);
-		this.search = this.search.bind(this);
-	}
-handleChange = (e) => {
-    this.setState({ searchValue: e.target.value });
-    this.props.onSearchChange(e.target.value);
-}
-	fetchMovies = async () => {
-		const response = await fetch(
-			`http://www.omdbapi.com/?s=${this.state.searchValue}&apikey=${process.env.OBDM_API_KEY}`
-		);
-		const data = await response.json();
-		if (data.Search) {
-			this.setState({ results: data.Search });
-			this.props.onSearchSubmit(data.Search); // pass the results to the parent component
-		}
-	};
+    constructor(props) {
+        super(props);
+        this.state = {
+            searchValue: "",
+            results: [],
+        };
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.search = this.search.bind(this);
+    }
 
-	search(e) {
-		e.preventDefault();
-		this.fetchMovies();
-	}
-	render() {
-		return (
-			<form
-				onsubmit={this.search}
+    handleChange = (e) => {
+        this.setState({ searchValue: e.target.value });
+        this.props.onSearchChange(e.target.value);
+    };
+
+    handleSubmit = (e) => {
+        e.preventDefault();
+        this.search();
+    };
+
+search() {
+	fetch(`http://www.omdbapi.com/?s=${this.state.searchValue}&apikey=${process.env.OBDM_API_KEY}`)
+		.then(response => response.json())
+		.then(data => this.setState({ results: data.Search }));
+}
+
+    render() {
+        return (
+            <form
+                onSubmit={this.handleSubmit} 
 				className="ontario-search__container"
 				novalidate>
 				<label class="ontario-label ontario-search__label" htmlFor=" search">
@@ -115,7 +114,6 @@ class MovieResults extends React.Component {
 	}
 }
 export class Output extends React.Component {
-
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -127,12 +125,18 @@ export class Output extends React.Component {
 	}
 
 	handleSearchChange = (value) => {
-    this.setState({ searchValue: value });
-}
+		this.setState({ searchValue: value });
+	};
 
-	handleSearchSubmit(results) {
-		this.setState({ results });
-	}
+	handleSearchSubmit = async () => {
+		const response = await fetch(
+			`http://www.omdbapi.com/?s=${this.state.searchValue}&apikey=${process.env.OBDM_API_KEY}`
+		);
+		const data = await response.json();
+		if (data.Search) {
+			this.setState({ results: data.Search });
+		}
+	};
 
 	render() {
 		return (
@@ -140,10 +144,10 @@ export class Output extends React.Component {
 				<div className="ontario-column">
 					<h1>Movie Search</h1>
 					<MovieSearch
-    searchValue={this.state.searchValue}
-    onSearchChange={this.handleSearchChange.bind(this)}
-    onSearchSubmit={this.handleSearchSubmit.bind(this)}
-/>
+						searchValue={this.state.searchValue}
+						onSearchChange={this.handleSearchChange.bind(this)}
+						onSearchSubmit={this.handleSearchSubmit.bind(this)}
+					/>
 					<MovieResults results={this.state.results} />
 				</div>{" "}
 			</div>
