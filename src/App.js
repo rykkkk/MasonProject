@@ -1,7 +1,7 @@
 import "./App.css";
 import React from "react";
 import { OPSFooter, OPSHeader } from "./components/Layout";
-import {  Output } from "./MovieSearch";
+import {  Output ,MovieResults} from "./MovieSearch";
 
 function App() {
 	return (
@@ -9,7 +9,7 @@ function App() {
 			<OPSHeader></OPSHeader>
 
 			<Output></Output>
-			<OPSFooter></OPSFooter>
+<MovieResults></MovieResults>		<OPSFooter></OPSFooter>
 		</div>
 	);
 }

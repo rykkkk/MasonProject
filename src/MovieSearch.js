@@ -93,7 +93,7 @@ export class MovieSearch extends React.Component {
 	}
 }
 
-class MovieResults extends React.Component {
+export class MovieResults extends React.Component {
 	render() {
 		const { results } = this.props; // access the results from props
 
